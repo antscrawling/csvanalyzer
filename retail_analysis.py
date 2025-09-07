@@ -1,5 +1,4 @@
 import duckdb
-import pandas as pd
 
 # Connect to the database file using context manager
 with duckdb.connect('sales_timeseries.db', read_only=True) as con:
@@ -8,7 +7,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     for row in result:
         print(f"{row[0]}: {row[1]}")
 
-    print(f"\n=== Database Summary ===")
+    print("\n=== Database Summary ===")
     summary = con.execute("""
         SELECT 
             COUNT(*) as total_transactions,

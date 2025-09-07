@@ -2,7 +2,6 @@
 
 import requests
 import json
-import time
 
 def test_api():
     base_url = "http://localhost:8000"
@@ -56,7 +55,7 @@ def test_api():
         print(f"Status: {response.status_code}")
         if response.status_code == 200:
             data = response.json()
-            print(f"Sales on 2024-01-01:")
+            print("Sales on 2024-01-01:")
             print(f"  Transactions: {data['transaction_count']}")
             print(f"  Revenue: SGD ${data['daily_revenue']:,.2f}")
             print(f"  Customers: {data['unique_customers']}")

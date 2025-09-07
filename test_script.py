@@ -3,10 +3,7 @@
 print("Starting test script...")
 
 import pandas as pd
-import numpy as np
 import duckdb
-from datetime import datetime, timedelta
-from tqdm import tqdm
 
 print("All imports successful!")
 

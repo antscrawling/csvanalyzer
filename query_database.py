@@ -1,5 +1,4 @@
 import duckdb
-import pandas as pd
 
 # Connect to the database file
 

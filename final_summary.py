@@ -1,8 +1,6 @@
 import duckdb
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Connect to the database file using context manager
 with duckdb.connect('sales_timeseries.db', read_only=True) as con:
@@ -11,7 +9,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     for row in result:
         print(f"{row[0]}: {row[1]}")
 
-    print(f"\n=== Database Summary ===")
+    print("\n=== Database Summary ===")
     summary = con.execute("""
         SELECT 
             COUNT(*) as total_rows,
@@ -96,13 +94,13 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     max_customers_day = daily_sales.loc[daily_sales['unique_customers'].idxmax()]
     best_avg_transaction_day = daily_sales.loc[daily_sales['avg_transaction_value'].idxmax()]
     
-    print(f"OTHER NOTABLE DAYS:")
+    print("OTHER NOTABLE DAYS:")
     print(f"📈 Most Transactions: {max_transactions_day['sales_date']} ({int(max_transactions_day['total_transactions']):,} transactions)")
     print(f"📉 Fewest Transactions: {min_transactions_day['sales_date']} ({int(min_transactions_day['total_transactions']):,} transactions)")
     print(f"👥 Most Customers: {max_customers_day['sales_date']} ({int(max_customers_day['unique_customers']):,} customers)")
     print(f"💎 Best Avg Value: {best_avg_transaction_day['sales_date']} (SGD ${best_avg_transaction_day['avg_transaction_value']:.2f})")
     
-    print(f"DAILY SALES STATISTICS:")
+    print("DAILY SALES STATISTICS:")
     print(f"📊 Total Days Analyzed: {len(daily_sales):,}")
     print(f"💰 Average Daily Revenue: SGD ${daily_sales['daily_revenue'].mean():,.2f}")
     print(f"📈 Daily Revenue Range: SGD ${daily_sales['daily_revenue'].min():,.2f} - ${daily_sales['daily_revenue'].max():,.2f}")
@@ -316,7 +314,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     best_hour_avg_value = hourly_sales.loc[hourly_sales['avg_transaction_value'].idxmax()]
     worst_hour_avg_value = hourly_sales.loc[hourly_sales['avg_transaction_value'].idxmin()]
     
-    print(f"\n=== 🏆 Hourly Performance Highlights ===")
+    print("\n=== 🏆 Hourly Performance Highlights ===")
     print("HIGHEST PERFORMERS:")
     print(f"💰 Best Revenue Hour: {int(best_hour_revenue['hour']):02d}:00 (SGD ${best_hour_revenue['total_revenue']:,.2f})")
     print(f"📊 Most Transactions Hour: {int(best_hour_transactions['hour']):02d}:00 ({int(best_hour_transactions['total_transactions']):,} transactions)")
@@ -330,7 +328,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     print(f"👥 Fewest Customers Hour: {int(hourly_sales.loc[hourly_sales['unique_customers'].idxmin()]['hour']):02d}:00 ({int(hourly_sales['unique_customers'].min()):,} customers)")
     
     # Time period analysis
-    print(f"\n=== 📅 Time Period Analysis ===")
+    print("\n=== 📅 Time Period Analysis ===")
     
     # Categorize hours into time periods
     def categorize_hour(hour):
@@ -357,7 +355,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     print("Sales Performance by Time Period:")
     print(period_analysis)
     
-    print(f"\n=== 🕐 Time Period Highlights ===")
+    print("\n=== 🕐 Time Period Highlights ===")
     best_period = period_analysis.index[0]
     worst_period = period_analysis.index[-1]
     
@@ -372,7 +370,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     print(f"   🎯 Avg Transaction: SGD ${period_analysis.loc[worst_period, 'avg_transaction_value']:.2f}")
     
     # Peak hours analysis
-    print(f"\n=== ⏰ Peak Hours Insights ===")
+    print("\n=== ⏰ Peak Hours Insights ===")
     top_3_hours = hourly_sales.nlargest(3, 'total_revenue')
     bottom_3_hours = hourly_sales.nsmallest(3, 'total_revenue')
     
@@ -385,12 +383,12 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
         print(f"   {i}. {int(row['hour']):02d}:00 - SGD ${row['total_revenue']:,.2f} ({int(row['total_transactions']):,} transactions)")
     
     # Business recommendations based on hourly analysis
-    print(f"\n=== 💡 Hourly Performance Recommendations ===")
-    print(f"🎯 STAFFING OPTIMIZATION:")
+    print("\n=== 💡 Hourly Performance Recommendations ===")
+    print("🎯 STAFFING OPTIMIZATION:")
     print(f"   • Peak hours ({int(best_hour_revenue['hour']):02d}:00-{int(best_hour_revenue['hour'])+1:02d}:00): Increase staff for maximum revenue capture")
     print(f"   • Low hours ({int(worst_hour_revenue['hour']):02d}:00-{int(worst_hour_revenue['hour'])+1:02d}:00): Minimal staffing or maintenance time")
     
-    print(f"\n📢 MARKETING INSIGHTS:")
+    print("\n📢 MARKETING INSIGHTS:")
     print(f"   • Best time for promotions: {best_period}")
     print(f"   • Avoid marketing during: {worst_period}")
     
@@ -399,7 +397,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     peak_hour_percentage = (best_hour_revenue['total_revenue'] / total_daily_revenue) * 100
     low_hour_percentage = (worst_hour_revenue['total_revenue'] / total_daily_revenue) * 100
     
-    print(f"\n📊 REVENUE CONCENTRATION:")
+    print("\n📊 REVENUE CONCENTRATION:")
     print(f"   • Peak hour contributes {peak_hour_percentage:.2f}% of daily revenue")
     print(f"   • Lowest hour contributes {low_hour_percentage:.2f}% of daily revenue")
     print(f"   • Revenue variation: {peak_hour_percentage/low_hour_percentage:.1f}x difference between peak and low")
@@ -456,7 +454,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     sales_revenue = sales_only_summary['total_sales'].sum()
     sales_transactions = sales_only_summary['transaction_count'].sum()
     
-    print(f"\n=== 📊 Sales Performance (Excluding Refunds & Exchanges) ===")
+    print("\n=== 📊 Sales Performance (Excluding Refunds & Exchanges) ===")
     print(f"💰 Total Sales Revenue: SGD ${sales_revenue:,.2f}")
     print(f"📊 Total Sales Transactions: {sales_transactions:,}")
     print(f"🎯 Average Sales Transaction: SGD ${sales_revenue/sales_transactions:.2f}")
@@ -468,7 +466,7 @@ with duckdb.connect('sales_timeseries.db', read_only=True) as con:
     refund_impact = total_revenue - sales_revenue
     transaction_impact = total_transactions - sales_transactions
     
-    print(f"\n=== 📉 Impact of Refunds & Exchanges ===")
+    print("\n=== 📉 Impact of Refunds & Exchanges ===")
     print(f"💸 Revenue Impact: SGD ${refund_impact:,.2f} ({(refund_impact/total_revenue)*100:.2f}% of total)")
     print(f"📉 Transaction Impact: {transaction_impact:,} transactions ({(transaction_impact/total_transactions)*100:.2f}% of total)")
 

@@ -1,7 +1,4 @@
 import duckdb
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 
 def generate_insights_summary():
     """Generate key insights from the retail analytics visualizations"""
@@ -155,5 +152,5 @@ def generate_insights_summary():
 
 if __name__ == "__main__":
     insights = generate_insights_summary()
-    print(f"\n✅ Insights analysis complete!")
-    print(f"📊 View detailed visualizations in 'retail_analytics_dashboard.png'")
+    print("\n✅ Insights analysis complete!")
+    print("📊 View detailed visualizations in 'retail_analytics_dashboard.png'")

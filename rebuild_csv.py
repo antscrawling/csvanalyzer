@@ -20,7 +20,6 @@ def main():
         print("Output must end with .csv or .parquet", file=sys.stderr)
         sys.exit(2)
 
-    import pyarrow as pa
     import pyarrow.parquet as pq
     import pyarrow.csv as pacsv
 

@@ -1,11 +1,10 @@
 from fastapi import FastAPI, HTTPException, Query, Path
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional, List
 import duckdb
 import uvicorn
-from datetime import datetime, date
-import pandas as pd
+from datetime import datetime
 
 class Customer(BaseModel):
     customer_number: int

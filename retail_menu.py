@@ -1,6 +1,5 @@
 import os
 import sys
-import pandas as pd
 import duckdb
 from datetime import datetime
 
@@ -250,7 +249,7 @@ def export_discount_analysis(con):
     filename2 = f"regular_vs_discount_comparison_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
     df2.to_csv(filename2, index=False)
     
-    print(f"✅ Discount analysis exported to:")
+    print("✅ Discount analysis exported to:")
     print(f"   📊 {filename1}")
     print(f"   📊 {filename2}")
 
@@ -332,7 +331,7 @@ def database_info():
                 print(f"   📊 {row[0]}: {row[1]}")
             
             # Basic stats
-            print(f"\n📈 Database Statistics:")
+            print("\n📈 Database Statistics:")
             stats = con.execute("""
                 SELECT 
                     COUNT(*) as total_rows,
@@ -353,7 +352,7 @@ def database_info():
             print(f"   💰 Total Revenue: SGD ${stats[6]:,.2f}")
             
             # Transaction types
-            print(f"\n🔄 Transaction Types:")
+            print("\n🔄 Transaction Types:")
             trans_types = con.execute("""
                 SELECT transaction_desc, COUNT(*) as count, 
                        ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM sales_data), 2) as percentage
@@ -413,7 +412,7 @@ def quick_insights():
             if best_discount:
                 print(f"   🎁 Best Discount Period: {best_discount[0]} (SGD ${best_discount[1]:,.2f})")
             
-            print(f"\n📊 KEY METRICS:")
+            print("\n📊 KEY METRICS:")
             metrics = con.execute("""
                 SELECT 
                     AVG(total_amount_per_product_sgd) as avg_transaction,

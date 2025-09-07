@@ -541,7 +541,7 @@ def display_proposed_analysis(dataframe, json_file: str):
                 if column in dataframe.columns:
                     print(f" - {column}: {dtype}")
                     if 'date' in column.lower() or 'time' in column.lower():
-                        print(f"   (This column appears to be a date/time field.)")
+                        print("   (This column appears to be a date/time field.)")
                         dataframe[column] = pd.to_datetime(dataframe[column], errors='coerce', format='%Y-%m-%d %H:%M:%S')
         print("\nDataFrame after applying proposed analysis:")
         print(dataframe.info())

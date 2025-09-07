@@ -1,5 +1,4 @@
 import duckdb
-import pandas as pd
 
 def discount_effectiveness_report():
     """Generate a comprehensive report on discount period effectiveness"""
@@ -41,14 +40,14 @@ def discount_effectiveness_report():
             ORDER BY revenue DESC
         """).df()
         
-        print(f"\n🎁 DISCOUNT PERIOD BREAKDOWN:")
+        print("\n🎁 DISCOUNT PERIOD BREAKDOWN:")
         print(discount_periods)
         
         # Calculate revenue per day for each period
         if not discount_periods.empty:
             discount_periods['revenue_per_day'] = discount_periods['revenue'] / discount_periods['active_days']
             
-            print(f"\n💰 REVENUE EFFICIENCY BY PERIOD:")
+            print("\n💰 REVENUE EFFICIENCY BY PERIOD:")
             for _, row in discount_periods.iterrows():
                 print(f"   🎯 {row['discount_period']}: SGD ${row['revenue_per_day']:,.2f} per day")
                 print(f"      📊 {row['transactions']:,} transactions over {int(row['active_days'])} days")
@@ -70,7 +69,7 @@ def discount_effectiveness_report():
             LIMIT 15
         """).df()
         
-        print(f"\n🏆 TOP PRODUCTS DURING DISCOUNT PERIODS:")
+        print("\n🏆 TOP PRODUCTS DURING DISCOUNT PERIODS:")
         print(discount_products)
         
         # 4. Country performance during discounts
@@ -87,7 +86,7 @@ def discount_effectiveness_report():
             ORDER BY discount_revenue DESC
         """).df()
         
-        print(f"\n🌏 COUNTRY PERFORMANCE DURING DISCOUNTS:")
+        print("\n🌏 COUNTRY PERFORMANCE DURING DISCOUNTS:")
         print(country_discounts)
         
         # 5. Yearly discount trends
@@ -104,7 +103,7 @@ def discount_effectiveness_report():
             ORDER BY year
         """).df()
         
-        print(f"\n📈 RECENT YEARS DISCOUNT TRENDS (2020-2025):")
+        print("\n📈 RECENT YEARS DISCOUNT TRENDS (2020-2025):")
         print(yearly_discounts)
         
         # 6. Calculate business insights
@@ -121,7 +120,7 @@ def discount_effectiveness_report():
             estimated_full_price_revenue = discount_transactions * avg_regular_price
             revenue_sacrifice = estimated_full_price_revenue - discount_revenue
             
-            print(f"\n💡 BUSINESS INSIGHTS:")
+            print("\n💡 BUSINESS INSIGHTS:")
             print(f"   📊 Discount Adoption: {(discount_transactions/(regular_transactions + discount_transactions))*100:.1f}% of transactions")
             print(f"   💰 Revenue from Discounts: SGD ${discount_revenue:,.2f} ({(discount_revenue/total_revenue)*100:.1f}% of total)")
             print(f"   📉 Estimated Revenue Sacrifice: SGD ${revenue_sacrifice:,.2f}")
@@ -132,12 +131,12 @@ def discount_effectiveness_report():
                 print(f"   🏆 Most Effective Period: {best_period['discount_period']} (SGD ${best_period['revenue_per_day']:,.2f}/day)")
         
         # 7. Recommendations
-        print(f"\n🎯 STRATEGIC RECOMMENDATIONS:")
-        print(f"   🎄 Christmas period generates highest discount revenue")
-        print(f"   📅 Focus marketing efforts on 11:00 AM peak hour")
-        print(f"   🛍️ Consider targeted discounts for high-value electronics")
-        print(f"   🌏 Expand discount campaigns in top-performing countries")
-        print(f"   📊 Monitor discount percentage vs transaction volume for optimization")
+        print("\n🎯 STRATEGIC RECOMMENDATIONS:")
+        print("   🎄 Christmas period generates highest discount revenue")
+        print("   📅 Focus marketing efforts on 11:00 AM peak hour")
+        print("   🛍️ Consider targeted discounts for high-value electronics")
+        print("   🌏 Expand discount campaigns in top-performing countries")
+        print("   📊 Monitor discount percentage vs transaction volume for optimization")
         
         return {
             'overall_impact': overall_impact,
@@ -149,4 +148,4 @@ def discount_effectiveness_report():
 
 if __name__ == "__main__":
     results = discount_effectiveness_report()
-    print(f"\n✅ Discount effectiveness analysis complete!")
+    print("\n✅ Discount effectiveness analysis complete!")

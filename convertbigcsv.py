@@ -26,7 +26,7 @@ def split_csv_file(input_file, chunk_size=10000, output_dir="chunks", prefix="ch
         dict: Summary of the split operation
     """
     
-    print(f"📁 BIG CSV FILE SPLITTER")
+    print("📁 BIG CSV FILE SPLITTER")
     print("=" * 30)
     
     # Validate input file
@@ -55,7 +55,7 @@ def split_csv_file(input_file, chunk_size=10000, output_dir="chunks", prefix="ch
         print(f"📦 Expected chunks: {total_chunks}")
         
         # Read and split the CSV file
-        print(f"\n⚡ Processing chunks...")
+        print("\n⚡ Processing chunks...")
         
         chunk_info = []
         
@@ -80,13 +80,13 @@ def split_csv_file(input_file, chunk_size=10000, output_dir="chunks", prefix="ch
         # Summary
         total_output_size = sum(info['size_mb'] for info in chunk_info)
         
-        print(f"\n✅ SPLIT COMPLETE!")
+        print("\n✅ SPLIT COMPLETE!")
         print(f"📦 Created {len(chunk_info)} chunk files")
         print(f"📏 Total output size: {total_output_size:.2f} MB")
         print(f"📁 Files saved in: {output_dir}/")
         
         # Show chunk details
-        print(f"\n📋 CHUNK DETAILS:")
+        print("\n📋 CHUNK DETAILS:")
         for info in chunk_info[:5]:  # Show first 5 chunks
             print(f"   📄 {info['filename']}: {info['rows']:,} rows ({info['size_mb']:.2f} MB)")
         
@@ -111,18 +111,18 @@ def list_csv_files():
     csv_files = [f for f in os.listdir('.') if f.endswith('.csv')]
     
     if csv_files:
-        print(f"\n📁 Available CSV files in current directory:")
+        print("\n📁 Available CSV files in current directory:")
         for i, file in enumerate(csv_files, 1):
             size_mb = os.path.getsize(file) / (1024 * 1024)
             print(f"   {i}. {file} ({size_mb:.2f} MB)")
         return csv_files
     else:
-        print(f"\n📁 No CSV files found in current directory")
+        print("\n📁 No CSV files found in current directory")
         return []
 
 def interactive_mode():
     """Interactive mode for user-friendly file selection"""
-    print(f"🔄 INTERACTIVE MODE")
+    print("🔄 INTERACTIVE MODE")
     print("=" * 20)
     
     # List available files
@@ -151,13 +151,13 @@ def interactive_mode():
                 else:
                     print(f"❌ File '{choice}' not found")
         except KeyboardInterrupt:
-            print(f"\n👋 Cancelled by user")
+            print("\n👋 Cancelled by user")
             return
     
     # Get chunk size
     while True:
         try:
-            chunk_input = input(f"\nChunk size (rows per file) [default: 10000]: ").strip()
+            chunk_input = input("\nChunk size (rows per file) [default: 10000]: ").strip()
             if not chunk_input:
                 chunk_size = 10000
                 break
@@ -166,31 +166,31 @@ def interactive_mode():
                 if chunk_size > 0:
                     break
                 else:
-                    print(f"❌ Chunk size must be positive")
+                    print("❌ Chunk size must be positive")
         except ValueError:
-            print(f"❌ Please enter a valid number")
+            print("❌ Please enter a valid number")
         except KeyboardInterrupt:
-            print(f"\n👋 Cancelled by user")
+            print("\n👋 Cancelled by user")
             return
     
     # Get output directory
-    output_dir = input(f"\nOutput directory [default: chunks]: ").strip()
+    output_dir = input("\nOutput directory [default: chunks]: ").strip()
     if not output_dir:
         output_dir = "chunks"
     
     # Confirm operation
-    print(f"\n📋 OPERATION SUMMARY:")
+    print("\n📋 OPERATION SUMMARY:")
     print(f"   📄 Input file: {input_file}")
     print(f"   📦 Chunk size: {chunk_size:,} rows")
     print(f"   📁 Output directory: {output_dir}")
     
-    confirm = input(f"\nProceed? (y/N): ").strip().lower()
+    confirm = input("\nProceed? (y/N): ").strip().lower()
     if confirm == 'y':
         result = split_csv_file(input_file, chunk_size, output_dir)
         if result:
-            print(f"\n🎉 Operation completed successfully!")
+            print("\n🎉 Operation completed successfully!")
     else:
-        print(f"❌ Operation cancelled")
+        print("❌ Operation cancelled")
 
 def main():
     """Main function with command line argument support"""
@@ -229,19 +229,19 @@ def quick_split():
         result = split_csv_file(latest_file, chunk_size=50000, output_dir="sales_chunks")
         return result
     else:
-        print(f"❌ No sales data export files found")
-        print(f"💡 Try running the retail menu first (Option 6 - Export Data)")
+        print("❌ No sales data export files found")
+        print("💡 Try running the retail menu first (Option 6 - Export Data)")
         return None
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         # No arguments provided, try quick split first
-        print(f"🚀 QUICK SPLIT MODE")
+        print("🚀 QUICK SPLIT MODE")
         print("=" * 20)
         result = quick_split()
         
         if not result:
-            print(f"\n🔄 Switching to interactive mode...")
+            print("\n🔄 Switching to interactive mode...")
             interactive_mode()
     else:
         main()

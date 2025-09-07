@@ -1,5 +1,4 @@
 import duckdb
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -38,14 +37,14 @@ def analyze_hourly_sales():
         best_hour = hourly_sales.loc[hourly_sales['total_revenue'].idxmax()]
         worst_hour = hourly_sales.loc[hourly_sales['total_revenue'].idxmin()]
         
-        print(f"\n🏆 BEST TIME OF DAY:")
+        print("\n🏆 BEST TIME OF DAY:")
         print(f"   🕐 Hour: {int(best_hour['hour'])}:00 ({int(best_hour['hour'])}:00-{int(best_hour['hour'])+1}:00)")
         print(f"   💰 Revenue: SGD ${best_hour['total_revenue']:,.2f}")
         print(f"   📊 Transactions: {int(best_hour['total_transactions']):,}")
         print(f"   👥 Customers: {int(best_hour['unique_customers']):,}")
         print(f"   🎯 Avg Transaction: SGD ${best_hour['avg_transaction_value']:.2f}")
         
-        print(f"\n🥉 WORST TIME OF DAY:")
+        print("\n🥉 WORST TIME OF DAY:")
         print(f"   🕐 Hour: {int(worst_hour['hour'])}:00 ({int(worst_hour['hour'])}:00-{int(worst_hour['hour'])+1}:00)")
         print(f"   💸 Revenue: SGD ${worst_hour['total_revenue']:,.2f}")
         print(f"   📉 Transactions: {int(worst_hour['total_transactions']):,}")
@@ -53,7 +52,7 @@ def analyze_hourly_sales():
         print(f"   🎯 Avg Transaction: SGD ${worst_hour['avg_transaction_value']:.2f}")
         
         # 2. Discount period analysis
-        print(f"\n🎁 DISCOUNT PERIOD ANALYSIS")
+        print("\n🎁 DISCOUNT PERIOD ANALYSIS")
         discount_analysis = con.execute("""
             SELECT 
                 discount_period,
@@ -84,7 +83,7 @@ def analyze_hourly_sales():
             ORDER BY total_revenue DESC
         """).df()
         
-        print(f"\n📊 REGULAR VS DISCOUNT SALES:")
+        print("\n📊 REGULAR VS DISCOUNT SALES:")
         print(regular_vs_discount)
         
         # 3. Hourly analysis during discount periods
@@ -101,7 +100,7 @@ def analyze_hourly_sales():
         """).df()
         
         if not hourly_discount.empty:
-            print(f"\n🕐 HOURLY PATTERNS DURING DISCOUNT PERIODS:")
+            print("\n🕐 HOURLY PATTERNS DURING DISCOUNT PERIODS:")
             # Get top performing hours during discounts
             top_discount_hours = hourly_discount.groupby('hour')['revenue'].sum().nlargest(5)
             print("Top 5 Hours During Discount Periods:")
@@ -109,7 +108,7 @@ def analyze_hourly_sales():
                 print(f"   🕐 {int(hour)}:00 - SGD ${revenue:,.2f}")
         
         # 4. Generate visualizations
-        print(f"\n📊 GENERATING HOURLY VISUALIZATIONS...")
+        print("\n📊 GENERATING HOURLY VISUALIZATIONS...")
         
         fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
         
@@ -155,7 +154,7 @@ def analyze_hourly_sales():
         plt.show()
         
         # 5. Business insights summary
-        print(f"\n💡 KEY INSIGHTS:")
+        print("\n💡 KEY INSIGHTS:")
         peak_hours = hourly_sales.nlargest(3, 'total_revenue')['hour'].values
         low_hours = hourly_sales.nsmallest(3, 'total_revenue')['hour'].values
         
@@ -179,5 +178,5 @@ def analyze_hourly_sales():
 
 if __name__ == "__main__":
     results = analyze_hourly_sales()
-    print(f"\n✅ Hourly analysis complete!")
-    print(f"📊 Visualization saved as 'hourly_sales_analysis.png'")
+    print("\n✅ Hourly analysis complete!")
+    print("📊 Visualization saved as 'hourly_sales_analysis.png'")

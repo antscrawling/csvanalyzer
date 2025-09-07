@@ -1,7 +1,4 @@
 import duckdb
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 
 def analyze_hourly_sales():
     """Detailed analysis of sales performance by hour of day"""
@@ -41,7 +38,7 @@ def analyze_hourly_sales():
         best_avg_value_hour = hourly_data.loc[hourly_data['avg_value'].idxmax()]
         worst_avg_value_hour = hourly_data.loc[hourly_data['avg_value'].idxmin()]
         
-        print(f"\n🏆 PEAK PERFORMANCE HOURS:")
+        print("\n🏆 PEAK PERFORMANCE HOURS:")
         print(f"💰 Highest Revenue: {int(best_revenue_hour['hour']):02d}:00")
         print(f"   Revenue: SGD ${best_revenue_hour['revenue']:,.2f}")
         print(f"   Transactions: {int(best_revenue_hour['transactions']):,}")
@@ -55,7 +52,7 @@ def analyze_hourly_sales():
         print(f"   Average Transaction: SGD ${best_avg_value_hour['avg_value']:.2f}")
         print(f"   Total Revenue: SGD ${best_avg_value_hour['revenue']:,.2f}")
         
-        print(f"\n📉 LOWEST PERFORMANCE HOURS:")
+        print("\n📉 LOWEST PERFORMANCE HOURS:")
         print(f"💸 Lowest Revenue: {int(worst_revenue_hour['hour']):02d}:00")
         print(f"   Revenue: SGD ${worst_revenue_hour['revenue']:,.2f}")
         print(f"   Transactions: {int(worst_revenue_hour['transactions']):,}")
@@ -93,7 +90,7 @@ def analyze_hourly_sales():
         
         period_summary = period_summary.sort_values('revenue', ascending=False)
         
-        print(f"\n⏰ TIME PERIOD PERFORMANCE:")
+        print("\n⏰ TIME PERIOD PERFORMANCE:")
         print("Period | Transactions | Revenue (SGD) | Avg Value | Customers")
         print("-" * 70)
         for period, row in period_summary.iterrows():
@@ -104,7 +101,7 @@ def analyze_hourly_sales():
         peak_revenue_pct = (best_revenue_hour['revenue'] / total_revenue) * 100
         low_revenue_pct = (worst_revenue_hour['revenue'] / total_revenue) * 100
         
-        print(f"\n💡 BUSINESS INSIGHTS:")
+        print("\n💡 BUSINESS INSIGHTS:")
         print(f"🎯 Peak hour ({int(best_revenue_hour['hour']):02d}:00) generates {peak_revenue_pct:.2f}% of daily revenue")
         print(f"🎯 Low hour ({int(worst_revenue_hour['hour']):02d}:00) generates {low_revenue_pct:.2f}% of daily revenue")
         print(f"🎯 Revenue variation: {peak_revenue_pct/low_revenue_pct:.2f}x difference between peak and low")
@@ -114,7 +111,7 @@ def analyze_hourly_sales():
         total_operating_revenue = operating_hours['revenue'].sum()
         operating_revenue_pct = (total_operating_revenue / total_revenue) * 100
         
-        print(f"\n🏪 OPERATING HOURS ANALYSIS:")
+        print("\n🏪 OPERATING HOURS ANALYSIS:")
         print(f"🕕 Store Hours (06:00-21:59): {operating_revenue_pct:.1f}% of total revenue")
         print(f"🌙 Night Hours (22:00-05:59): {100-operating_revenue_pct:.1f}% of total revenue")
         
@@ -122,29 +119,29 @@ def analyze_hourly_sales():
         top_3 = hourly_data.nlargest(3, 'revenue')
         bottom_3 = hourly_data.nsmallest(3, 'revenue')
         
-        print(f"\n🥇 TOP 3 REVENUE HOURS:")
+        print("\n🥇 TOP 3 REVENUE HOURS:")
         for i, (_, row) in enumerate(top_3.iterrows(), 1):
             print(f"   {i}. {int(row['hour']):02d}:00 - SGD ${row['revenue']:,.0f} ({int(row['transactions']):,} transactions)")
         
-        print(f"\n🥉 BOTTOM 3 REVENUE HOURS:")
+        print("\n🥉 BOTTOM 3 REVENUE HOURS:")
         for i, (_, row) in enumerate(bottom_3.iterrows(), 1):
             print(f"   {i}. {int(row['hour']):02d}:00 - SGD ${row['revenue']:,.0f} ({int(row['transactions']):,} transactions)")
         
         # Recommendations
-        print(f"\n🎯 STRATEGIC RECOMMENDATIONS:")
-        print(f"📈 Peak Performance:")
+        print("\n🎯 STRATEGIC RECOMMENDATIONS:")
+        print("📈 Peak Performance:")
         print(f"   • Schedule more staff during {int(best_revenue_hour['hour']):02d}:00-{int(best_revenue_hour['hour'])+1:02d}:00")
-        print(f"   • Focus premium promotions during morning hours")
+        print("   • Focus premium promotions during morning hours")
         print(f"   • Ensure full inventory during {int(best_transaction_hour['hour']):02d}:00-{int(best_transaction_hour['hour'])+1:02d}:00")
         
-        print(f"\n📉 Optimization Opportunities:")
+        print("\n📉 Optimization Opportunities:")
         print(f"   • Consider reduced staffing during {int(worst_revenue_hour['hour']):02d}:00-{int(worst_revenue_hour['hour'])+1:02d}:00")
-        print(f"   • Use evening hours for maintenance and restocking")
-        print(f"   • Implement evening discounts to boost sales")
+        print("   • Use evening hours for maintenance and restocking")
+        print("   • Implement evening discounts to boost sales")
         
         return hourly_data, period_summary
 
 if __name__ == "__main__":
     hourly_data, period_summary = analyze_hourly_sales()
-    print(f"\n✅ Hourly analysis complete!")
+    print("\n✅ Hourly analysis complete!")
     print(f"📊 Data covers {len(hourly_data)} operating hours with detailed insights.")

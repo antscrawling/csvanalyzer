@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
-import duckdb
-from datetime import datetime, timedelta
+from datetime import timedelta
 from tqdm import tqdm
 
 def test_age_field():
@@ -70,7 +69,7 @@ def test_age_field():
     df = pd.DataFrame(transactions)
     
     print(f"Dataset size: {df.shape}")
-    print(f"Age statistics:")
+    print("Age statistics:")
     print(f"  Min age: {df['age'].min()}")
     print(f"  Max age: {df['age'].max()}")
     print(f"  Mean age: {df['age'].mean():.1f}")
