@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 import numpy as np
 import duckdb
@@ -22,7 +23,9 @@ def generate_initial_data():
     #change to phone models
     # add computers, devices, gadgets
     
-    
+    gender = ['M', 'F']
+    with open('src/cities.json') as f:
+        cities = json.load(f)
     products = [
         {'product_id': 'P001', 'product_name': 'iPhone 13', 'unit_price': 999.00},
         {'product_id': 'P002', 'product_name': 'Samsung Galaxy S21', 'unit_price': 899.00},
@@ -45,21 +48,21 @@ def generate_initial_data():
         {'product_id': 'P019', 'product_name': 'Microsoft Surface Pro 7', 'unit_price': 999.00},
         {'product_id': 'P020', 'product_name': 'Amazon Kindle', 'unit_price': 89.00}
     ]
-    countries = [
-        {'country_id': 'C001', 'country_name': 'Singapore'},
-        {'country_id': 'C002', 'country_name': 'Malaysia'},
-        {'country_id': 'C003', 'country_name': 'Indonesia'},
-        {'country_id': 'C004', 'country_name': 'Thailand'},
-        {'country_id': 'C005', 'country_name': 'Vietnam'},
-        {'country_id': 'C006', 'country_name': 'Philippines'},
-        {'country_id': 'C007', 'country_name': 'Brunei'},
-        {'country_id': 'C008', 'country_name': 'Myanmar'},
-        {'country_id': 'C009', 'country_name': 'Cambodia'},
-        {'country_id': 'C010', 'country_name': 'Laos'},
-        {'country_id': 'C011', 'country_name': 'Brunei'},
-        {'country_id': 'C012', 'country_name': 'Myanmar'},
-        {'country_id': 'C013', 'country_name': 'Thailand'}
-    ]
+    #countries = [
+    #    {'country_id': 'C001', 'country_name': 'Singapore'},
+    #    {'country_id': 'C002', 'country_name': 'Malaysia'},
+    #    {'country_id': 'C003', 'country_name': 'Indonesia'},
+    #    {'country_id': 'C004', 'country_name': 'Thailand'},
+    #    {'country_id': 'C005', 'country_name': 'Vietnam'},
+    #    {'country_id': 'C006', 'country_name': 'Philippines'},
+    #    {'country_id': 'C007', 'country_name': 'Brunei'},
+    #    {'country_id': 'C008', 'country_name': 'Myanmar'},
+    #    {'country_id': 'C009', 'country_name': 'Cambodia'},
+    #    {'country_id': 'C010', 'country_name': 'Laos'},
+    #    {'country_id': 'C011', 'country_name': 'Brunei'},
+    #    {'country_id': 'C012', 'country_name': 'Myanmar'},
+    #    {'country_id': 'C013', 'country_name': 'Thailand'}
+    #]
     transaction_types = [{'transaction_id':'Sales','transaction_desc':'Product Sale'},
                          {'transaction_id':'Refund','transaction_desc':'Product Refund'},
                          {'transaction_id':'Exchange','transaction_desc':'Product Exchange'}
@@ -133,12 +136,16 @@ def generate_initial_data():
         for receipt in range(num_receipts):
             # Assign age to customer if not already assigned
             if customer_id not in customer_ages:
+                gender_choice = np.random.choice(gender)
                 # Realistic age distribution: more customers in 25-45 range
                 age_ranges = [18, 25, 35, 45, 55, 65, 75]
                 age_weights = [0.05, 0.20, 0.25, 0.25, 0.15, 0.08, 0.02]
                 age_range_start = np.random.choice(age_ranges, p=age_weights)
                 customer_ages[customer_id] = np.random.randint(age_range_start, min(age_range_start + 10, 80))
-                country = np.random.choice(countries)
+                city = np.random.choice([city['name'] for city in cities])
+                selected_city = next(item for item in cities if item['name'] == city)
+                country_id = selected_city['country_id']
+                country = selected_city['country']
                 #every 6 months 1 or 2 return or exchange
                 #based on random but 95% weight on Sales
                 transaction_type = transaction_types[np.random.choice([0,1,2], p=[0.95,0.025,0.025])] 
@@ -180,6 +187,7 @@ def generate_initial_data():
                     'transaction_desc': transaction_type['transaction_desc'],
                     'customer_number': customer_id,
                     'age': customer_ages[customer_id],
+                    'gender': gender_choice,
                     'receipt_number': receipt_id,
                     'product_id': product['product_id'],
                     'product_name': product['product_name'],
@@ -187,8 +195,9 @@ def generate_initial_data():
                     'unit_price_sgd': round(unit_price, 2),
                     'total_amount_per_product_sgd': round(total_amount_per_product, 2),
                     'receipt_total_sgd': 0,  # Will be filled later
-                    'country_id': country['country_id'],
-                    'country': country['country_name'],
+                    'country_id': country_id,
+                    'country': country,
+                    'city': city,
                     'discount_period': discount_period_name if discount_applied else None,
                     'discount_percentage': discount_percentage,
                     'discount_applied': discount_applied
@@ -237,7 +246,7 @@ def generate_initial_data():
 
     print("\n📋 Sample data preview:")
     print(df[['customer_number', 'age', 'product_name', 'units_sold', 'unit_price_sgd', 
-              'total_amount_per_product_sgd', 'receipt_total_sgd', 'day_of_week_text', 'month_text','country_id','country','transaction_id','transaction_desc', 'discount_period', 'discount_applied']].head())
+              'total_amount_per_product_sgd', 'receipt_total_sgd', 'day_of_week_text', 'month_text','country_id','country','city','transaction_id','transaction_desc', 'discount_period', 'discount_applied']].head())
 
     print("\n💾 Saving to database...")
     # Store the results into a file database

@@ -58,3 +58,7 @@ pyinstaller --onefile rebuild_csv.py
   ```
 - **SQLite**: `sqlite-utils insert` can ingest CSV and let you query without loading all rows into RAM.
 - **Polars**: `scan_csv` + `sink_parquet` for streaming transformations.
+
+# CSV Analyzer
+
+This project provides tools for analyzing retail sales data, including a FastAPI-based API (`app.py`) and a data generation script (`main.py`) that creates a DuckDB database.
