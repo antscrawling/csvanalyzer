@@ -1,0 +1,4 @@
+
+docker run --rm -it -v "$PWD/src:/app/src" -w /app/src python:3.10-slim python main.py
+
+docker-compose up --build

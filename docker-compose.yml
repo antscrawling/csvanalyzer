@@ -11,6 +11,7 @@ services:
       - ./src:/app/src  # Mount source code for development
     environment:
       - PYTHONUNBUFFERED=1
+      - GITHUB_PAT=${GITHUB_PAT}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import sys; sys.path.append('/app/src'); import duckdb; duckdb.connect('src/sales_timeseries.db').close()"]
